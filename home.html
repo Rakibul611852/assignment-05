@@ -17,31 +17,67 @@
 </head>
 
 <body>
-      <header>
-        <div class="navbar bg-base-100 shadow-sm px-10 sm:col-3">
-           <div class="flex flex-1 gap-3 mx-auto">
-              <img class="max-h-10" src="assets/github-logo.png" alt="">
-              <h2 class="font-semibold mx-h-[37px] text-3xl">GitHub Issues Tracker</h2>
-           </div>
-                <div class="flex md:gap-x-12 sm:flex-1">
-                 <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
-                   <div class="dropdown dropdown-end">
-                      <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-                         <button class="btn btn-primary ">+ New Issue</button>
-                      </div>
-                   </div>
-                </div>
-        </div>
-      </header>
+        <div class="navbar bg-base-100 shadow-sm">
+  <div class="flex-1 flex gap-2 py-5 px-16">
+        <img class="w-12 h-12 " src="assets/github-logo.png" alt="">
+        <h2 class="font-bold text-3xl py-2">GitHub Issues Tracker</h2>
+  </div>
+      <div class="justify-between space-x-6 px-16">
+        <input type="text" placeholder="Search issues..." class="input input-bordered w-24 md:w-auto" />      
+        <button class="btn btn-primary font-medium text-xl py-3 px-4">+ New Issue</button>  
+      </div>
+
+        
+    </div>
 
    <section>
-       <div class="w-11/12 mx-auto bg-slate-100 py-10 mt-15 px-8 gap-x-9">
-             <button class="btn btn-outline hover:bg-blue-700 hover:text-white md:px-[49px] md:py-[12px]">All</button>
-             <button class="btn btn-outline hover:bg-blue-700 hover:text-white md:px-[49px] md:py-[12px]">Open</button>
-             <button class="btn btn-outline hover:bg-blue-700 hover:text-white md:px-[49px] md:py-[12px]">Closed</button>
+       <div class="w-9/12 mx-auto bg-slate-100 py-10 mt-15 px-8 gap-x-9 rounded-lg space-x-3">
+             <button class="btn btn-outline bg-gray-200 hover:bg-blue-700 hover:text-white md:px-[49px] md:py-[12px]">All</button>
+             <button class="btn btn-outline bg-gray-200 hover:bg-blue-700 hover:text-white md:px-[49px] md:py-[12px]">Open</button>
+             <button class="btn btn-outline bg-gray-200 hover:bg-blue-700 hover:text-white md:px-[49px] md:py-[12px]">Closed</button>
        </div>
    </section>
 
+        <section>
+  
+       <div class="w-9/12 mx-auto bg-slate-100 py-[24px] mt-15 px-8 gap-x-9 rounded-lg space-x-3">
+          <div class="w-full  border-blue-400  p-4 flex justify-between items-end">
+
+  <!-- Left Section -->
+              <div class="flex items-center gap-3">
+
+                <!-- Icon -->
+                <div class="w-12 h-12 bg-purple-200 text-white flex items-center justify-center rounded-full text-lg">
+                  <img src="assets/Aperture.png" alt="">
+                </div>
+
+                <!-- Text -->
+                <div>
+                  <h2 class="font-bold text-3xl text-gray-800">50 Issues</h2>
+                  <p class="text-sm text-gray-500">Track and manage your project issues</p>
+                </div>
+
+              </div>
+
+  <!-- Right Section -->
+              <div class="flex items-center gap-4 text-sm">
+
+                <div class="flex items-center gap-1">
+                  <span class="w-4 h-4 bg-green-500 rounded-full"></span>
+                  <span class="font-semibold text-lg px-2 py-0.5 rounded">Open</span>
+                </div>
+
+                <div class="flex items-center gap-1 text-gray-600">
+                  <span class="w-4 h-4 bg-purple-500  rounded-full"></span>
+                  <span class="font-semibold text-lg px-2 py-0.5 rounded">Closed</span>
+                </div>
+
+              </div>
+
+          </div>
+
+       </div>
+   </section>
 
 </body>
 </html>
