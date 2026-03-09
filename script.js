@@ -90,6 +90,7 @@ const labelsHTML = issue.labels.map(label => {
     container.innerHTML += `
     
      <div onclick="openModal(
+     '${issue.id}',
     '${issue.title}',
     '${issue.description}',
     '${statusImage}', 
@@ -98,13 +99,14 @@ const labelsHTML = issue.labels.map(label => {
     '${issue.author}',
     '${issue.updatedAt}'
   )"
-    class="cursor-pointer card space-y-3 bg-slate-50 p-4 rounded-xl shadow-lg hover:shadow-xl transition">
+    class="cursor-pointer card space-y-3 bg-slate-50 p-4 rounded-xl shadow-lg hover:shadow-xl transition ">
 
     <!-- Top Border color -->
-    <div class="rounded-lg h-2 ${borderColor}"></div>
+   <div class="rounded-lg h-2 ${borderColor}"></div>
 
     <!-- Header: Status image + Priority -->
     <div class="flex justify-between items-center">
+    
       <img class="h-8 w-8" src="${statusImage}" alt="status">
       <span class="font-semibold ${priorityColor} py-2 px-4 rounded-xl">${issue.priority}</span>
     </div>
@@ -116,15 +118,21 @@ const labelsHTML = issue.labels.map(label => {
     <p>${issue.description.slice(0, 80)}...</p>
 
     <!-- Labels -->
-    <div class="flex flex-wrap gap-2 mt-2">
-      ${labelsHTML}
-  
+    <div class="flex flex-wrap gap-2 mt-2">  
+      <button>${labelsHTML}</button>
     </div>
 
     <!-- Footer: Author + Updated date with top border -->
-    <div class=" justify-between text-sm text-gray-600 border-t pt-3 mt-3 space-x-3">
-      <p># by ${issue.author}</p>
-      <p>${date}</p>
+    <div class="justify-between flex text-sm text-gray-600 border-t pt-3 mt-3 ">
+         <div class="space-y-3 ">
+            <p>author: #${issue.id} ${issue.author}</p>
+            <p>assignee: #${issue.id} ${issue.assignee}</p>
+          </div>
+         <div class="space-y-3 ">           
+            <p>${issue.createdAt}</p>
+            <p>${issue.updatedAt}</p>
+          </div>
+           
     </div>
 
   </div>
@@ -154,14 +162,14 @@ async function filterIssues(status) {
   const buttons = document.querySelectorAll(".filter-btn");
   buttons.forEach(btn => {
     // Reset all to normal
-    btn.classList.remove("bg-blue-500", "text-white");
+    btn.classList.remove("bg-blue-700", "text-white");
     btn.classList.add("bg-gray-200", "text-gray-800");
   });
 
   // Set clicked button active
   const activeBtn = document.getElementById(status);
   if (activeBtn) {
-    activeBtn.classList.add("bg-blue-500", "text-white");
+    activeBtn.classList.add("bg-blue-700", "text-white");
     activeBtn.classList.remove("bg-gray-200", "text-gray-800");
   }
   
@@ -197,18 +205,57 @@ document
 // ================================
 // Show Issue Modal
 // ================================
-function openModal(title, description){
+// ================================
+// Open Modal + Fetch Single Issue
+// ================================
+async function openModal(id){
 
-  document.getElementById("modalTitle").innerText = title;
+  const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`);
+  const data = await res.json();
+  const issue = data.data;
 
-  document.getElementById("modalDescription").innerText = description;
-  
-  
+  // ================================
+  // Data Show
+  // ================================
+  document.getElementById("title").innerText = issue.title;
+  document.getElementById("status").innerText = issue.status;
+  document.getElementById("author").innerText = issue.author;
+  document.getElementById("description").innerText = issue.description;
+  document.getElementById("assignee").innerText = issue.assignee || "Unassigned";
+  document.getElementById("priority").innerText = issue.priority;
+
+  const date = new Date(issue.createdAt).toLocaleDateString();
+  document.getElementById("date").innerText = date;
+
+  // ================================
+  // Labels
+  // ================================
+  const labelContainer = document.getElementById("labels");
+  labelContainer.innerHTML = ""; // clear previous labels
+
+  issue.labels.forEach(label => {
+
+    let span = document.createElement("span");
+
+    if(label === "bug"){
+      span.className = "border border-red-400 text-red-500 px-3 py-1 rounded-full text-sm";
+    } 
+    else {
+      span.className = "border border-yellow-400 text-yellow-600 px-3 py-1 rounded-full text-sm";
+    }
+
+    span.innerText = label.toUpperCase();
+    labelContainer.appendChild(span);
+
+  });
+
+  // ================================
+  // Show Modal
+  // ================================
   const modal = document.getElementById("issueModal");
-
-
   modal.classList.remove("hidden");
-  modal.classList.add("flex"); // center করার জন্য
+  modal.classList.add("flex");
+
 }
 
 
@@ -218,7 +265,6 @@ function openModal(title, description){
 function closeModal(){
 
   const modal = document.getElementById("issueModal");
-
   modal.classList.remove("flex");
   modal.classList.add("hidden");
 
