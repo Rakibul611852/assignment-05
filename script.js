@@ -1,10 +1,20 @@
+
+const manageSpinner = (status)=>{
+  if(status==true){
+    document.getElementById("spinner").classList.remove("hidden");
+    document.getElementById("issuesContainer").classList.add("hidden");
+  } else {
+    document.getElementById("issuesContainer").classList.remove("hidden");
+    document.getElementById("spinner").classList.add("hidden");
+  }
+}
+
 const baseURL = "https://phi-lab-server.vercel.app/api/v1/lab";
-
 let allIssues = [];
-
 async function loadIssues() {
-  const container = document.getElementById("issuesContainer");
 
+  manageSpinner(true);
+  const container = document.getElementById("issuesContainer");
   container.innerHTML = `
   <p class="text-center text-gray-500">Loading Issues...</p>
   `;
@@ -15,6 +25,8 @@ async function loadIssues() {
   allIssues = data.data;
 
   displayIssues(allIssues);
+
+
 }
 
 function displayIssues(issues) {
@@ -117,6 +129,7 @@ function displayIssues(issues) {
     </div>
     `;
   });
+    manageSpinner(false);
 }
 
 function filterIssues(status) {
@@ -146,17 +159,14 @@ function filterIssues(status) {
 async function searchIssues() {
 
   const text = document.getElementById("searchInput").value.trim();
-
+   manageSpinner(true);
   const res = await fetch(`${baseURL}/issues/search?q=${text}`);
   const data = await res.json();
 
   displayIssues(data.data);
 }
 
-document
-  .getElementById("searchInput")
-  .addEventListener("keypress", function (e) {
-
+document.getElementById("searchInput").addEventListener("keypress", function (e) {
     if (e.key === "Enter") {
       searchIssues();
     }

@@ -28,7 +28,8 @@
 
 <body>
 <!-- Navbar -->
-<nav class="fixed top-0 left-0 w-full bg-white shadow-xl p-4 z-50 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+<header>
+    <nav class="fixed top-0 left-0 w-full bg-white shadow-xl p-4 z-50 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
 
   <div class="flex items-center gap-2 px-2 md:px-12">
     <img class="w-10 h-10 md:w-12 md:h-12" src="assets/github-logo.png" alt="">
@@ -41,10 +42,12 @@
   </div>
 
 </nav>
+</header>
 
 
 <!-- Filter Buttons -->
-<div class="flex flex-wrap gap-3 mb-4 w-[95%] md:w-[80%] mx-auto bg-white rounded-lg shadow-xl py-6 px-6 mt-32 border border-gray-200 justify-center md:justify-start">
+<section>
+    <div class="flex flex-wrap gap-3 mb-4 w-[95%] md:w-[80%] mx-auto bg-white rounded-lg shadow-xl py-6 px-6 mt-32 border border-gray-200 justify-center md:justify-start">
 
   <button id="all" class="filter-btn bg-blue-700 btn btn-outline text-white px-4 py-2 rounded" onclick="filterIssues('all')">All</button>
 
@@ -53,10 +56,12 @@
   <button id="closed" class="filter-btn bg-gray-200 btn btn-outline text-gray-800 px-4 py-2 rounded" onclick="filterIssues('closed')">Closed</button>
 
 </div>
+</section>
 
 
 <!-- Summary Section -->
-<div class="flex flex-col md:flex-row gap-6 w-[95%] md:w-[80%] mx-auto bg-white shadow-md border border-gray-200 py-8 px-6 mt-10 items-center rounded-lg">
+<section>
+    <div class="flex flex-col md:flex-row gap-6 w-[95%] md:w-[80%] mx-auto bg-white shadow-md border border-gray-200 py-8 px-6 mt-10 items-center rounded-lg">
 
   <img class="w-12 h-12 bg-purple-200 rounded-full p-2" src="assets/Aperture.png" alt="">
 
@@ -82,12 +87,18 @@
   </div>
 
 </div>
-
+</section>
+ 
+ <section id="spinner" class="flex justify-center items-center py-10 hidden">
+     <span class="loading loading-bars loading-xl"></span>
+ </section>
 
 <!-- Issues Grid -->
-<div id="issuesContainer"
-  class="w-[95%] md:w-[80%] mx-auto bg-gray-200 border-t-2 p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-</div>
+<section>
+   <div id="issuesContainer"
+    class="w-[95%] md:w-[80%] mx-auto bg-gray-200 border-t-2 p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+   </div>
+</section>
 
 
 <!-- Modal -->
