@@ -27,99 +27,111 @@
 </head>
 
 <body>
-        <nav class="fixed top-0 left-0 w-full bg-white shadow-xl p-4 z-50 justify-between flex">
-            <div class="flex gap-2 px-12">
-                  <img class="w-12 h-12 " src="assets/github-logo.png" alt="">
-                  <h2 class="text-3xl font-bold py-2">GitHub Issues Tracker</h2>
-            </div>
+<!-- Navbar -->
+<nav class="fixed top-0 left-0 w-full bg-white shadow-xl p-4 z-50 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
 
-            <div class="space-x-4">
-              <input class="btn btn-outline  text-gray-800" id="searchInput" placeholder="Search issues....">
-              <button class="btn btn-primary" onclick="searchIssues()">Search</button>
-            </div>
-        </nav>
+  <div class="flex items-center gap-2 px-2 md:px-12">
+    <img class="w-10 h-10 md:w-12 md:h-12" src="assets/github-logo.png" alt="">
+    <h2 class="text-xl md:text-3xl font-bold">GitHub Issues Tracker</h2>
+  </div>
+
+  <div class="flex gap-2 md:space-x-4">
+    <input class="btn btn-outline text-gray-800 md:w-auto" id="searchInput" placeholder="Search issues....">
+    <button class="btn btn-primary" onclick="searchIssues()">Search</button>
+  </div>
+
+</nav>
 
 
-        <div class="flex gap-3 mb-4 w-[80%] mx-auto bg-white rounded-lg shadow-xl py-10 px-10 mt-30 border border-gray-200 ">
-            <button id="all" class="filter-btn bg-blue-700 btn btn-outline text-white px-4 py-2 rounded transition-colors duration-300" onclick="filterIssues('all')">All</button> 
+<!-- Filter Buttons -->
+<div class="flex flex-wrap gap-3 mb-4 w-[95%] md:w-[80%] mx-auto bg-white rounded-lg shadow-xl py-6 px-6 mt-32 border border-gray-200 justify-center md:justify-start">
 
-            <button id="open" class="filter-btn bg-gray-200 btn btn-outline text-gray-800 px-4 py-2 rounded transition-colors duration-300" onclick="filterIssues('open')">Open</button>
+  <button id="all" class="filter-btn bg-blue-700 btn btn-outline text-white px-4 py-2 rounded" onclick="filterIssues('all')">All</button>
 
-            <button id="closed" class="filter-btn bg-gray-200 btn btn-outline text-gray-800 px-4 py-2 rounded transition-colors duration-300" onclick="filterIssues('closed')">Closed</button>
-        </div>
+  <button id="open" class="filter-btn bg-gray-200 btn btn-outline text-gray-800 px-4 py-2 rounded" onclick="filterIssues('open')">Open</button>
 
-      <div class="flex w-[80%] mx-auto bg-white shadow-md border border-gray-200 py-12 px-12 mt-12 gap-6      items-center rounded-lg">
+  <button id="closed" class="filter-btn bg-gray-200 btn btn-outline text-gray-800 px-4 py-2 rounded" onclick="filterIssues('closed')">Closed</button>
 
-      <img class="w-12 h-12 bg-purple-200 rounded-full p-2"
-      src="assets/Aperture.png" alt="">
+</div>
+
+
+<!-- Summary Section -->
+<div class="flex flex-col md:flex-row gap-6 w-[95%] md:w-[80%] mx-auto bg-white shadow-md border border-gray-200 py-8 px-6 mt-10 items-center rounded-lg">
+
+  <img class="w-12 h-12 bg-purple-200 rounded-full p-2" src="assets/Aperture.png" alt="">
+
+  <div class="text-center md:text-left">
+    <h3 id="issueCount" class="text-2xl md:text-3xl font-bold"></h3>
+    <p class="text-gray-500">Track and manage your project issues</p>
+  </div>
+
+  <div class="flex gap-6 md:ml-auto">
+
+    <div class="flex items-center gap-2">
+      <img class="w-5" src="assets/open.png" alt="">
+      <span id="openCount" class="font-semibold">0</span>
+      <span>Open</span>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <img class="w-5" src="assets/closed.png" alt="">
+      <span id="closedCount" class="font-semibold">0</span>
+      <span>Closed</span>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- Issues Grid -->
+<div id="issuesContainer"
+  class="w-[95%] md:w-[80%] mx-auto bg-gray-200 border-t-2 p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+</div>
+
+
+<!-- Modal -->
+<div id="issueModal" class="fixed inset-0 hidden items-center justify-center bg-black/40 p-4">
+
+  <div class="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6 md:p-8">
+
+    <h1 id="title" class="text-2xl md:text-3xl font-bold text-gray-800 mb-4"></h1>
+
+    <div class="flex flex-wrap items-center gap-3 mb-6">
+      <span id="status" class="px-3 py-1 text-sm rounded-full bg-green-500 text-white"></span>
+
+      <p class="text-gray-500 text-sm">
+        Opened by <span id="author"></span> • <span id="date"></span>
+      </p>
+    </div>
+
+    <div id="labels" class="flex flex-wrap gap-3 mb-6"></div>
+
+    <p id="description" class="text-gray-600 mb-6"></p>
+
+    <div class="bg-gray-100 rounded-lg p-5 flex flex-col md:flex-row gap-4 md:justify-between md:items-center mb-6">
 
       <div>
-        <h3 id="issueCount" class="text-3xl font-bold"></h3>
-        <p class="text-gray-500">Track and manage your project issues</p>
+        <p class="text-gray-500 text-sm">Assignee:</p>
+        <h3 id="assignee" class="font-semibold text-lg"></h3>
       </div>
 
-      <div class="flex gap-6 ml-auto">
-
-        <div class="flex items-center gap-2">
-          <img class="w-5" src="assets/open.png" alt="">
-          <span id="openCount" class="font-semibold">0</span>
-          <span>Open</span>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <img class="w-5" src="assets/closed.png" alt="">
-          <span id="closedCount" class="font-semibold">0</span>
-          <span>Closed</span>
-        </div>
-
+      <div class="text-center">
+        <p class="text-gray-500 text-sm">Priority:</p>
+        <span id="priority" class="bg-red-500 text-white text-xs px-4 py-1 rounded-full"></span>
       </div>
 
     </div>
 
-        <div id="issuesContainer"
-            class="w-[80%] mx-auto bg-gray-200 border-t-2 p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        </div>
-      <div id="issuesContainer" class="grid grid-cols-3 gap-6"></div>
-
-<div id="issueModal" class="fixed inset-0 hidden items-center justify-center bg-black/40">
-  <div class="fixed inset-0 flex items-center justify-center bg-black/40">
-    <div class="bg-white w-[750px] rounded-xl shadow-xl p-8">
-      
-        <h1 id="title" class="text-3xl font-bold text-gray-800 mb-4"></h1>
-
-          <div class="flex items-center gap-3 mb-6">
-            <span id="status" class="px-3 py-1 text-sm rounded-full bg-green-500 text-white">
-            </span>
-            <p class="text-gray-500 text-sm">Opened by 
-              <span id="author"></span> • <span id="date"></span>
-            </p>
-          </div>
-
-    <div id="labels" class="flex gap-3 mb-6"></div>
-
-       <p id="description" class="text-gray-600 mb-6"></p>
-
-    <div class="bg-gray-100 rounded-lg p-5 flex justify-between items-center mb-6">
-
-        <div>
-          <p class="text-gray-500 text-sm">Assignee:</p>
-          <h3 id="assignee" class="font-semibold text-lg"></h3>
-        </div>
-
-        <div class="text-center">
-          <p class="text-gray-500 text-sm">Priority:</p>
-          <span id="priority" class="bg-red-500 text-white text-xs px-4 py-1 rounded-full"></span>
-        </div>
-
-    </div>
-    
-        <div class="flex justify-end">
-          <button class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-lg" onclick="closeModal()">Close</button>
-        </div>
-      </div>
-      </div>
+    <div class="flex justify-end">
+      <button class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-lg" onclick="closeModal()">
+        Close
+      </button>
     </div>
 
+  </div>
+
+</div>
     <script src="script.js"></script>
 
 </body>
