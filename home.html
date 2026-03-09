@@ -16,10 +16,10 @@
      <!-- font  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- font intigration -->
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet"> 
+     <!-- google font -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
 
      <!-- css link-->
       <link rel="stylesheet" href="style.css">
@@ -27,141 +27,100 @@
 </head>
 
 <body>
+        <nav class="fixed top-0 left-0 w-full bg-white shadow-xl p-4 z-50 justify-between flex">
+            <div class="flex gap-2 px-12">
+                  <img class="w-12 h-12 " src="assets/github-logo.png" alt="">
+                  <h2 class="text-3xl font-bold py-2">GitHub Issues Tracker</h2>
+            </div>
 
-<!-- Navbar -->
-
-<nav class="fixed top-0 left-0 w-full bg-white shadow-xl p-4 z-50 justify-between flex">
- <div class="flex gap-2 px-12">
-     <img class="w-12 h-12 " src="assets/github-logo.png" alt="">
-      <h2 class="text-3xl font-bold py-2">GitHub Issues Tracker</h2>
- </div>
-
-<div class="space-x-4">
-<input class="btn border-t-neutral-950" id="searchInput" placeholder="Search issues....">
-<button class="btn btn-outline btn-primary" onclick="searchIssues()">Search</button>
-</div>
-
-</nav>
+            <div class="space-x-4">
+              <input class="btn btn-outline  text-gray-800" id="searchInput" placeholder="Search issues....">
+              <button class="btn btn-primary" onclick="searchIssues()">Search</button>
+            </div>
+        </nav>
 
 
-<!-- Tabs -->
+        <div class="flex gap-3 mb-4 w-[80%] mx-auto bg-white rounded-lg shadow-xl py-10 px-10 mt-30 border border-gray-200 ">
+            <button id="all" class="filter-btn bg-blue-700 btn btn-outline text-white px-4 py-2 rounded transition-colors duration-300" onclick="filterIssues('all')">All</button> 
 
-<div class="flex gap-3 mb-4 w-[80%] mx-auto bg-white rounded-lg shadow-xl py-10 px-10 mt-20">
-  <button id="all" class="filter-btn bg-blue-700 btn btn-outline text-white px-4 py-2 rounded transition-colors duration-300" onclick="filterIssues('all')">All</button>
-  <button id="open" class="filter-btn bg-gray-200 btn btn-outline text-gray-800 px-4 py-2 rounded transition-colors duration-300" onclick="filterIssues('open')">Open</button>
-  <button id="closed" class="filter-btn bg-gray-200 btn btn-outline text-gray-800 px-4 py-2 rounded transition-colors duration-300" onclick="filterIssues('closed')">Closed</button>
-</div>
+            <button id="open" class="filter-btn bg-gray-200 btn btn-outline text-gray-800 px-4 py-2 rounded transition-colors duration-300" onclick="filterIssues('open')">Open</button>
 
- 
-<!-- issues count -->
+            <button id="closed" class="filter-btn bg-gray-200 btn btn-outline text-gray-800 px-4 py-2 rounded transition-colors duration-300" onclick="filterIssues('closed')">Closed</button>
+        </div>
 
-  <div class="flex w-[80%] mx-auto bg-gray-300 shadow-xl py-12 px-12 mt-12 gap-6 items-center rounded-lg">
+      <div class="flex w-[80%] mx-auto bg-white shadow-md border border-gray-200 py-12 px-12 mt-12 gap-6      items-center rounded-lg">
 
-  <!-- Logo -->
-  <img class="w-12 h-12 bg-purple-200 rounded-full p-2"
-  src="assets/Aperture.png" alt="">
+      <img class="w-12 h-12 bg-purple-200 rounded-full p-2"
+      src="assets/Aperture.png" alt="">
 
-  <!-- Issue Count -->
-  <div>
-    <h3 id="issueCount" class="text-3xl font-bold"></h3>
-    <p class="text-gray-500">Track and manage your project issues</p>
-  </div>
+      <div>
+        <h3 id="issueCount" class="text-3xl font-bold"></h3>
+        <p class="text-gray-500">Track and manage your project issues</p>
+      </div>
 
-  <!-- Open / Closed Status -->
-  <div class="flex gap-6 ml-auto">
+      <div class="flex gap-6 ml-auto">
 
-    <!-- Open -->
-    <div class="flex items-center gap-2">
-      <img class="w-5" src="assets/open.png" alt="">
-      <span id="openCount" class="font-semibold">0</span>
-      <span>Open</span>
+        <div class="flex items-center gap-2">
+          <img class="w-5" src="assets/open.png" alt="">
+          <span id="openCount" class="font-semibold">0</span>
+          <span>Open</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <img class="w-5" src="assets/closed.png" alt="">
+          <span id="closedCount" class="font-semibold">0</span>
+          <span>Closed</span>
+        </div>
+
+      </div>
+
     </div>
 
-    <!-- Closed -->
-    <div class="flex items-center gap-2">
-      <img class="w-5" src="assets/closed.png" alt="">
-      <span id="closedCount" class="font-semibold">0</span>
-      <span>Closed</span>
-    </div>
+        <div id="issuesContainer"
+            class="w-[80%] mx-auto bg-gray-200 border-t-2 p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        </div>
+      <div id="issuesContainer" class="grid grid-cols-3 gap-6"></div>
 
-  </div>
-
-</div>
-
-
-<!-- issues container -->
-
-<div id="issuesContainer"
-class="w-[80%] mx-auto bg-gray-200 border-t-2 p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-</div>
-
-
-
-<!-- modal -->
-
-<div id="issuesContainer" class="grid grid-cols-3 gap-6">
-  <!-- সব issue card এখানে load হবে -->
-</div>
-
-
-<!-- ================= MODAL ================= -->
-
-<!-- Modal Background -->
 <div id="issueModal" class="fixed inset-0 hidden items-center justify-center bg-black/40">
+  <div class="fixed inset-0 flex items-center justify-center bg-black/40">
+    <div class="bg-white w-[750px] rounded-xl shadow-xl p-8">
+      
+        <h1 id="title" class="text-3xl font-bold text-gray-800 mb-4"></h1>
 
-<!-- Modal -->
-<div class="fixed inset-0 flex items-center justify-center bg-black/40">
+          <div class="flex items-center gap-3 mb-6">
+            <span id="status" class="px-3 py-1 text-sm rounded-full bg-green-500 text-white">
+            </span>
+            <p class="text-gray-500 text-sm">Opened by 
+              <span id="author"></span> • <span id="date"></span>
+            </p>
+          </div>
 
-<div class="bg-white w-[750px] rounded-xl shadow-xl p-8">
+    <div id="labels" class="flex gap-3 mb-6"></div>
 
-<!-- Title -->
-<h1 id="title" class="text-3xl font-bold text-gray-800 mb-4"></h1>
+       <p id="description" class="text-gray-600 mb-6"></p>
 
-<!-- Status + Author -->
-<div class="flex items-center gap-3 mb-6">
-<span id="status" class="px-3 py-1 text-sm rounded-full bg-green-500 text-white"></span>
+    <div class="bg-gray-100 rounded-lg p-5 flex justify-between items-center mb-6">
 
-<p class="text-gray-500 text-sm">
-Opened by <span id="author"></span> • <span id="date"></span>
-</p>
-</div>
+        <div>
+          <p class="text-gray-500 text-sm">Assignee:</p>
+          <h3 id="assignee" class="font-semibold text-lg"></h3>
+        </div>
 
-<!-- Labels -->
-<div id="labels" class="flex gap-3 mb-6"></div>
+        <div class="text-center">
+          <p class="text-gray-500 text-sm">Priority:</p>
+          <span id="priority" class="bg-red-500 text-white text-xs px-4 py-1 rounded-full"></span>
+        </div>
 
-<!-- Description -->
-<p id="description" class="text-gray-600 mb-6"></p>
+    </div>
+    
+        <div class="flex justify-end">
+          <button class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-lg" onclick="closeModal()">Close</button>
+        </div>
+      </div>
+      </div>
+    </div>
 
-<!-- Info Box -->
-<div class="bg-gray-100 rounded-lg p-5 flex justify-between items-center mb-6">
-
-<div>
-<p class="text-gray-500 text-sm">Assignee:</p>
-<h3 id="assignee" class="font-semibold text-lg"></h3>
-</div>
-
-<div class="text-center">
-<p class="text-gray-500 text-sm">Priority:</p>
-<span id="priority" class="bg-red-500 text-white text-xs px-4 py-1 rounded-full"></span>
-</div>
-
-</div>
- 
-<!-- Button -->
-<div class="flex justify-end">
-   <button class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-lg" onclick="closeModal()">Close</button>
-</div>
-
-</div>
-</div>
-
-  
-</div>
-
-
-<!-- js connect -->
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
