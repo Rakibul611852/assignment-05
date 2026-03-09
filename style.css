@@ -70,22 +70,5 @@ button{
 
 
 
-.login-body{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    background:#e2e8f0;
-}
 
 
-
-.login-box{
-    background:white;
-    padding:30px;
-    border-radius:10px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    width:300px;
-}

@@ -54,93 +54,118 @@ document.getElementById("closedCount").innerText = closedIssues;
     return;
   }
 
-  issues.forEach(issue => {
+ issues.forEach(issue => {
 
-    const statusImage =
-      issue.status === "open"
-        ? "assets/Open-Status.png"
-        : "assets/Closed-Status.png";
+  const date = new Date(issue.updatedAt).toLocaleDateString();
 
-    const date = new Date(issue.updatedAt).toLocaleDateString();
+  // status image ternary
+  const statusImage = issue.status === "open"
+    ? "./assets/Open-Status.png"
+    : "./assets/Closed- Status .png";
+
+  // border color ternary
+  const borderColor = issue.status === "open"
+    ? "bg-green-500"
+    : "bg-purple-500";
+
+ const priorityColor =
+  issue.priority === "high"
+    ? "text-red-800 bg-red-100"
+    : issue.priority === "medium"
+    ? "text-yellow-800 bg-yellow-100"
+    : "text-gray-800 bg-gray-200";
+
+const labelsHTML = issue.labels.map(label => {
+  // label অনুযায়ী color assign
+  const labelClass =
+    label.toLowerCase() === "bug"
+      ? "text-red-800 bg-red-100"
+      : label.toLowerCase() === "help wanted"
+      ? "text-yellow-800 bg-yellow-100"
+      : "text-gray-800 bg-gray-200";
+
+  return `<span class="inline-block ${labelClass} px-3 py-1 rounded-full text-sm font-medium">${label}</span>`;
+}).join('');
 
     container.innerHTML += `
+    
+     <div onclick="openModal(
+    '${issue.title}',
+    '${issue.description}',
+    '${statusImage}', 
+    '${issue.priority}',
+    '${issue.labels.join(", ")}',
+    '${issue.author}',
+    '${issue.updatedAt}'
+  )"
+    class="cursor-pointer card space-y-3 bg-slate-50 p-4 rounded-xl shadow-lg hover:shadow-xl transition">
 
-   <div onclick="openModal('${issue.title}','${issue.description}')"
-      class="cursor-pointer card space-y-3 bg-slate-50 p-4 rounded-xl shadow-lg hover:shadow-xl transition">
+    <!-- Top Border color -->
+    <div class="rounded-lg h-2 ${borderColor}"></div>
 
-      <div class="flex justify-between">
-
-        <img class="h-8 w-8" src="${statusImage}" alt="status">
-
-        <span class="font-semibold text-red-800 bg-red-100 py-2 px-4 rounded-xl">
-          ${issue.priority}
-        </span>
-
-      </div>
-
-      <h3 class="text-xl font-bold">
-        ${issue.title}
-      </h3>
-
-      <p>
-        ${issue.description.slice(0, 80)}...
-      </p>
-
-      <div class="flex gap-4">
-
-        <span class="text-red-800 bg-red-100 py-1 px-3 rounded-xl text-sm">
-          BUG
-        </span>
-
-        <span class="text-yellow-600 bg-yellow-100 py-1 px-3 rounded-xl text-sm">
-          HELP WANTED
-        </span>
-
-      </div>
-
-      <div class="flex justify-between text-sm text-gray-600">
-
-        <p>${issue.assignee}</p>
-        <p>${date}</p>
-
-      </div>
-
+    <!-- Header: Status image + Priority -->
+    <div class="flex justify-between items-center">
+      <img class="h-8 w-8" src="${statusImage}" alt="status">
+      <span class="font-semibold ${priorityColor} py-2 px-4 rounded-xl">${issue.priority}</span>
     </div>
+
+    <!-- Title -->
+    <h3 class="text-xl font-bold">${issue.title}</h3>
+
+    <!-- Description -->
+    <p>${issue.description.slice(0, 80)}...</p>
+
+    <!-- Labels -->
+    <div class="flex flex-wrap gap-2 mt-2">
+      ${labelsHTML}
+  
+    </div>
+
+    <!-- Footer: Author + Updated date with top border -->
+    <div class=" justify-between text-sm text-gray-600 border-t pt-3 mt-3 space-x-3">
+      <p># by ${issue.author}</p>
+      <p>${date}</p>
+    </div>
+
+  </div>
 
     `;
   });
 }
 
 
+
 // ================================
 // Filter Issues
 // ================================
 async function filterIssues(status) {
-
   const res = await fetch(`${baseURL}/issues`);
   const data = await res.json();
 
-  let filtered;
+  // Filter data
+  const filtered = status === "all" 
+    ? data.data 
+    : data.data.filter(issue => issue.status === status);
 
-  if (status === "all") {
-    filtered = data.data;
-  } else {
-    filtered = data.data.filter(
-      issue => issue.status === status
-    );
-  }
-
+  // Display cards
   displayIssues(filtered);
 
-  // active button highlight
-  document.querySelectorAll(".filter-btn").forEach(btn => {
+  // Active button highlight
+  const buttons = document.querySelectorAll(".filter-btn");
+  buttons.forEach(btn => {
+    // Reset all to normal
     btn.classList.remove("bg-blue-500", "text-white");
+    btn.classList.add("bg-gray-200", "text-gray-800");
   });
 
-  document.getElementById(status).classList.add("bg-blue-500", "text-white");
+  // Set clicked button active
+  const activeBtn = document.getElementById(status);
+  if (activeBtn) {
+    activeBtn.classList.add("bg-blue-500", "text-white");
+    activeBtn.classList.remove("bg-gray-200", "text-gray-800");
+  }
+  
 }
-
-
 // ================================
 // Search Issues
 // ================================
@@ -177,8 +202,10 @@ function openModal(title, description){
   document.getElementById("modalTitle").innerText = title;
 
   document.getElementById("modalDescription").innerText = description;
-
+  
+  
   const modal = document.getElementById("issueModal");
+
 
   modal.classList.remove("hidden");
   modal.classList.add("flex"); // center করার জন্য
