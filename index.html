@@ -27,53 +27,93 @@
 </head>
 <body>
 
-  <div class="min-h-[770px] max-w-[520px]  mx-auto mt-[70px] bg-white rounded-xl p-3 shadow-xl">
+<div class="min-h-screen w-[95%] sm:w-[90%] md:max-w-[520px] mx-auto mt-10 md:mt-[70px] bg-white rounded-xl p-4 md:p-6 shadow-xl">
 
-       <div class="logo w-[263px] pt-[30px] mx-auto ">
-         <img class=" mx-auto" src="assets/github-logo.png" alt="">
-         <h1 class=" text-center mt-[32px] font-bold text-2xl">GitHub Issues Tracker</h1>
-         <p class=" text-center text-gray-500 mt-2">Sign in to manage your issues</p>
-       </div>
-     
-       <div class="form ">
-          <div class="card  w-full mx-auto rounded-2xl">
-                <div class="card-body">
+  <!-- Logo -->
+  <div class="logo w-full max-w-[263px] pt-6 mx-auto">
+    <img class="mx-auto w-16 md:w-auto" src="assets/github-logo.png" alt="">
+    
+    <h1 class="text-center mt-6 md:mt-8 font-bold text-xl md:text-2xl">
+      GitHub Issues Tracker
+    </h1>
 
-                    <fieldset class="fieldset">
+    <p class="text-center text-gray-500 mt-2 text-sm md:text-base">
+      Sign in to manage your issues
+    </p>
+  </div>
 
-                        <label class="label text-neutral font-normal text-[16px]">Username</label>
-                        <input id="input-username" type="Enter your username" class="input rounded-xl bg-base-200 w-full mx-auto" placeholder="Enter Username" />
 
-                        <p class="text-blue-700 text-sm">Default: admin</p>
+  <!-- Form -->
+  <div class="form mt-4">
 
-                        
-                        <label class="label  text-neutral mt-3 font-normal text-[16px]">Password</label>
-                        <input id="input-password" type="input-password" class="input rounded-xl bg-base-200 w-full mx-auto" placeholder="Enter Password" />
-                        <p class="text-blue-700 text-sm">Default: admin123</p>
+    <div class="card w-full mx-auto rounded-2xl">
+      <div class="card-body p-4 md:p-6">
 
-                        <button id="signin-btn" class="btn btn-primary mt-4  rounded-xl">Sign In</button>
+        <fieldset class="fieldset space-y-2">
 
-                    </fieldset>
+          <label class="label text-neutral font-normal text-sm md:text-[16px]">
+            Username
+          </label>
 
-                </div>
-           </div>
+          <input
+            id="input-username"
+            type="text"
+            class="input rounded-xl bg-base-200 w-full"
+            placeholder="Enter Username"
+          />
+
+          <p class="text-blue-700 text-xs md:text-sm">Default: admin</p>
+
+
+          <label class="label text-neutral mt-3 font-normal text-sm md:text-[16px]">
+            Password
+          </label>
+
+          <input
+            id="input-password"
+            type="password"
+            class="input rounded-xl bg-base-200 w-full"
+            placeholder="Enter Password"
+          />
+
+          <p class="text-blue-700 text-xs md:text-sm">Default: admin123</p>
+
+          <button
+            id="signin-btn"
+            class="btn btn-primary mt-4 rounded-xl w-full"
+          >
+            Sign In
+          </button>
+
+        </fieldset>
+
       </div>
+    </div>
 
-       <div class="flex items-center text-gray-700 my-4">
-  <div class="flex-grow border-t border-gray-300"></div>
-  <span class="mx-3 font-semibold">OR</span>
-  <div class="flex-grow border-t border-gray-300"></div>
+  </div>
+
+
+  <!-- OR -->
+  <div class="flex items-center text-gray-700 my-6">
+    <div class="flex-grow border-t border-gray-300"></div>
+    <span class="mx-3 font-semibold text-sm">OR</span>
+    <div class="flex-grow border-t border-gray-300"></div>
+  </div>
+
+
+  <!-- Demo Credentials -->
+  <div>
+    <h2 class="text-center mt-2 text-sm text-gray-500">
+      Demo Credentials:
+    </h2>
+
+    <div class="bg-gray-100 py-6 mt-3 text-center text-gray-600 w-full sm:w-11/12 mx-auto font-medium rounded-lg">
+      <p>Username: admin</p>
+      <p>Password: admin123</p>
+    </div>
+  </div>
+
 </div>
-            
-           <div>
-              <h2 class="text-center mt-[20px] text-sm text-gray-500">Demo Credentials:</h2>
-              <div class="bg-gray-100 py-[24px] mt-[10px] text-center text-gray-600 w-11/12 mx-auto font-medium pb-6">
-                   <p>Username: admin </p>
-                   <p>Password: admin123</p>
-              </div>
-           </div>
-
-
            <script src="login.js"></script>
   </div>
 </body>
