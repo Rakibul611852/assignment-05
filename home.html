@@ -1,83 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Issues Tracker</title>
 
-    <link rel="shortcut icon" href="assets/github-logo.png" type="image/x-icon">
+<meta charset="UTF-8">
+<title>GitHub Issues Tracker</title>
+<link rel="shortcut icon" href="assets/github-logo.png" type="image/x-icon">
 
-    <!-- tailwind+daisyui -->
+
+
+<!-- tailwind+daisyui -->
      <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
+     <!-- font  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-     <link rel="stylesheet" href="style.css">
+    <!-- font intigration -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet"> 
+
+     <!-- css link-->
+      <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
-        <div class="navbar bg-base-100 shadow-sm">
-  <div class="flex-1 flex gap-2 py-5 px-16">
-        <img class="w-12 h-12 " src="assets/github-logo.png" alt="">
-        <h2 class="font-bold text-3xl py-2">GitHub Issues Tracker</h2>
-  </div>
-      <div class="justify-between space-x-6 px-16">
-        <input type="text" placeholder="Search issues..." class="input input-bordered w-24 md:w-auto" />      
-        <button class="btn btn-primary font-medium text-xl py-3 px-4">+ New Issue</button>  
-      </div>
 
-        
+<!-- Navbar -->
+
+<nav>
+ <div class="flex gap-2 px-12">
+     <img class="w-12 h-12 " src="assets/github-logo.png" alt="">
+      <h2 class="text-3xl font-bold py-2">GitHub Issues Tracker</h2>
+ </div>
+
+<div>
+
+<input id="searchInput" placeholder="Search issues">
+
+<button onclick="searchIssues()">Search</button>
+<button class="btn btn-primary font-medium text-xl py-3 px-4">+ New Issue</button>  
+
+</div>
+
+</nav>
+
+
+<!-- Tabs -->
+
+   <div class="tabs w-[80%] mx-auto  gap-5 bg-white rounded-xl py-12 px-12 mt-12 p-[20px]">
+     <button onclick="loadIssues()">All</button>
+     <button onclick="filterIssues('open')">Open</button>
+     <button onclick="filterIssues('closed')">Closed</button>
+   </div>
+
+
+<!-- issues count -->
+
+  <div class="flex w-[80%] mx-auto bg-white py-12 px-12 mt-12 gap-6 items-center">
+
+  <!-- Logo -->
+  <img class="w-12 h-12 bg-purple-200 rounded-full p-2"
+  src="assets/Aperture.png" alt="">
+
+  <!-- Issue Count -->
+  <div>
+    <h3 id="issueCount" class="text-3xl font-bold"></h3>
+    <p class="text-gray-500">Track and manage your project issues</p>
+  </div>
+
+  <!-- Open / Closed Status -->
+  <div class="flex gap-6 ml-auto">
+
+    <!-- Open -->
+    <div class="flex items-center gap-2">
+      <img class="w-5" src="assets/open.png" alt="">
+      <span id="openCount" class="font-semibold">0</span>
+      <span>Open</span>
     </div>
 
-   <section>
-       <div class="w-9/12 mx-auto bg-slate-100 py-10 mt-15 px-8 gap-x-9 rounded-lg space-x-3">
-             <button class="btn btn-outline bg-gray-200 hover:bg-blue-700 hover:text-white md:px-[49px] md:py-[12px]">All</button>
-             <button class="btn btn-outline bg-gray-200 hover:bg-blue-700 hover:text-white md:px-[49px] md:py-[12px]">Open</button>
-             <button class="btn btn-outline bg-gray-200 hover:bg-blue-700 hover:text-white md:px-[49px] md:py-[12px]">Closed</button>
-       </div>
-   </section>
+    <!-- Closed -->
+    <div class="flex items-center gap-2">
+      <img class="w-5" src="assets/closed.png" alt="">
+      <span id="closedCount" class="font-semibold">0</span>
+      <span>Closed</span>
+    </div>
 
-        <section>
-  
-       <div class="w-9/12 mx-auto bg-slate-100 py-[24px] mt-15 px-8 gap-x-9 rounded-lg space-x-3">
-          <div class="w-full  border-blue-400  p-4 flex justify-between items-end">
+  </div>
 
-  <!-- Left Section -->
-              <div class="flex items-center gap-3">
+</div>
 
-                <!-- Icon -->
-                <div class="w-12 h-12 bg-purple-200 text-white flex items-center justify-center rounded-full text-lg">
-                  <img src="assets/Aperture.png" alt="">
-                </div>
 
-                <!-- Text -->
-                <div>
-                  <h2 class="font-bold text-3xl text-gray-800">50 Issues</h2>
-                  <p class="text-sm text-gray-500">Track and manage your project issues</p>
-                </div>
+<!-- issues container -->
 
-              </div>
+<div id="issuesContainer" class="w-[80%] mx-auto bg-gray-200"></div>
 
-  <!-- Right Section -->
-              <div class="flex items-center gap-4 text-sm">
 
-                <div class="flex items-center gap-1">
-                  <span class="w-4 h-4 bg-green-500 rounded-full"></span>
-                  <span class="font-semibold text-lg px-2 py-0.5 rounded">Open</span>
-                </div>
 
-                <div class="flex items-center gap-1 text-gray-600">
-                  <span class="w-4 h-4 bg-purple-500  rounded-full"></span>
-                  <span class="font-semibold text-lg px-2 py-0.5 rounded">Closed</span>
-                </div>
+<!-- modal -->
 
-              </div>
+<div id="issuesContainer" class="grid grid-cols-3 gap-6">
+  <!-- সব issue card এখানে load হবে -->
+</div>
 
-          </div>
 
-       </div>
-   </section>
+<!-- ================= MODAL ================= -->
+
+<div id="issueModal"
+class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+
+  <div class="bg-white p-6 rounded-xl w-[500px] shadow-lg">
+
+    <h2 id="modalTitle" class="text-2xl font-bold mb-3"></h2>
+
+    <p id="modalDescription" class="text-gray-600 mb-4"></p>
+
+    <div class="text-right">
+      <button onclick="closeModal()"
+      class="bg-purple-600 text-white px-4 py-2 rounded">
+        Close
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- js connect -->
+
+<script src="script.js"></script>
 
 </body>
 </html>

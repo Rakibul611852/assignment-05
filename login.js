@@ -1,4 +1,3 @@
-
 document.getElementById("signin-btn").addEventListener("click", function(){
     const usernameInput =document.getElementById("input-username");
     const username = usernameInput.value;
@@ -18,4 +17,3 @@ document.getElementById("signin-btn").addEventListener("click", function(){
 
 
 })
-
